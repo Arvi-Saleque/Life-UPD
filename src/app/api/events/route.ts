@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       course: body.course,
       type: body.type,
       description: body.description || "",
-      date: body.date,
+      date: body.date || undefined,
       submissionDate: body.submissionDate,
       time: body.time,
       room: body.room,

@@ -43,8 +43,8 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
   const now = new Date();
 
   const upcoming = events
-    .filter((e) => parseISO(e.date) >= now)
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .filter((e) => e.date && parseISO(e.date) >= now)
+    .sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
 
   const cts = events.filter((e) => e.type === "CT").length;
   const assignments = events.filter((e) => e.type === "Assignment").length;
@@ -53,12 +53,12 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
 
   const next = upcoming[0];
   const nextCourse = next ? getCourse(next.course) : null;
-  const nextDaysLeft = next
+  const nextDaysLeft = next?.date
     ? differenceInDays(parseISO(next.date), now)
     : null;
 
   const urgentCount = upcoming.filter(
-    (e) => differenceInDays(parseISO(e.date), now) <= 3
+    (e) => e.date && differenceInDays(parseISO(e.date), now) <= 3
   ).length;
 
 
@@ -160,7 +160,7 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
                   <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-2">
                     <span className={`${nextCourse.text} font-medium`}>{nextCourse.shortName}</span>
                     <span className="text-slate-600">&bull;</span>
-                    <span>{format(parseISO(next.date), "MMM d")}</span>
+                    <span>{next.date ? format(parseISO(next.date), "MMM d") : "TBD"}</span>
                     <span className="text-slate-600">&bull;</span>
                     <span className="text-white font-medium">
                       {nextDaysLeft === 0

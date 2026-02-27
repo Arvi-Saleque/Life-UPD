@@ -36,6 +36,7 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
   const eventsByDate = useMemo(() => {
     const map: Record<string, LifeEvent[]> = {};
     for (const event of events) {
+      if (!event.date) continue;
       if (!map[event.date]) map[event.date] = [];
       map[event.date].push(event);
     }

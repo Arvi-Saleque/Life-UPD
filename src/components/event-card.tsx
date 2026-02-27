@@ -67,7 +67,7 @@ export function EventCard({
 }) {
   const course = getCourse(event.course);
   const Icon = typeIcons[event.type] || HelpCircle;
-  const countdown = getCountdown(event.submissionDate || event.date);
+  const countdown = getCountdown(event.submissionDate || event.date || undefined);
   const typeColor = typeColors[event.type] || typeColors.Other;
 
   return (
@@ -116,10 +116,15 @@ export function EventCard({
 
               {/* Meta info */}
               <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
-                {event.date && (
+                {event.date ? (
                   <span className="flex items-center gap-1.5">
                     <CalendarDays className="h-3.5 w-3.5 text-slate-600" />
                     {format(parseISO(event.date), "MMM d, yyyy")}
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 text-amber-500/70">
+                    <CalendarDays className="h-3.5 w-3.5" />
+                    Date TBD
                   </span>
                 )}
                 {event.time && (
@@ -190,16 +195,18 @@ export function EventCard({
 
           {/* Info grid */}
           <div className="grid grid-cols-2 gap-3">
-            {event.date && (
-              <div className="rounded-2xl glass p-4">
-                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
-                  <CalendarDays className="h-3 w-3" /> Date
-                </p>
+            <div className="rounded-2xl glass p-4">
+              <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+                <CalendarDays className="h-3 w-3" /> Date
+              </p>
+              {event.date ? (
                 <p className="text-sm font-medium text-white">
                   {format(parseISO(event.date), "EEE, MMM d")}
                 </p>
-              </div>
-            )}
+              ) : (
+                <p className="text-sm font-medium text-amber-400/80">TBD</p>
+              )}
+            </div>
             {event.time && (
               <div className="rounded-2xl glass p-4">
                 <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">

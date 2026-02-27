@@ -108,7 +108,7 @@ export function WeeklyTimeline({ events }: { events: LifeEvent[] }) {
   const weekEvents = useMemo(() => {
     return events
       .filter((e) => e.week === currentWeek)
-      .sort((a, b) => a.date.localeCompare(b.date));
+      .sort((a, b) => (a.date ?? "9999").localeCompare(b.date ?? "9999"));
   }, [events, currentWeek]);
 
   // Filtered events

@@ -119,7 +119,7 @@ export default function AdminPage() {
         course: form.course,
         type: form.type,
         description: form.description,
-        date: form.date,
+        date: form.date || undefined,
         submissionDate: form.submissionDate || undefined,
         time: form.time || undefined,
         room: form.room || undefined,
@@ -165,7 +165,7 @@ export default function AdminPage() {
       course: event.course,
       type: event.type,
       description: event.description,
-      date: event.date,
+      date: event.date || "",
       submissionDate: event.submissionDate || "",
       time: event.time || "",
       room: event.room || "",
@@ -289,14 +289,16 @@ export default function AdminPage() {
 
             {/* Date */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Date *</Label>
+              <Label className="text-slate-300">Date <span className="text-slate-600 text-xs">(optional)</span></Label>
               <Input
                 type="date"
-                required
                 value={form.date}
                 onChange={(e) => handleDateChange(e.target.value)}
                 className="border-slate-700 bg-slate-800 text-white"
               />
+              {!form.date && (
+                <p className="text-[11px] text-amber-500/70">No date — set the week manually below</p>
+              )}
             </div>
 
             {/* Time */}
@@ -448,7 +450,7 @@ export default function AdminPage() {
         ) : (
           <div className="space-y-2">
             {events
-              .sort((a, b) => a.date.localeCompare(b.date))
+              .sort((a, b) => (a.date ?? "9999").localeCompare(b.date ?? "9999"))
               .map((event) => {
                 const course = getCourse(event.course);
                 return (
@@ -480,7 +482,7 @@ export default function AdminPage() {
                         {event.title}
                       </p>
                       <p className="text-xs text-slate-500">
-                        {format(parseISO(event.date), "MMM d, yyyy")}
+                        {event.date ? format(parseISO(event.date), "MMM d, yyyy") : "Date TBD"}
                         {event.time ? ` • ${event.time}` : ""}
                         {event.room ? ` • ${event.room}` : ""}
                       </p>

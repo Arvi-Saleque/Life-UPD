@@ -14,7 +14,7 @@ export interface LifeEvent {
   course: string; // course code e.g. "CSE 3209"
   type: EventType;
   description: string;
-  date: string; // ISO date string YYYY-MM-DD
+  date?: string; // ISO date string YYYY-MM-DD (optional — date may be TBD)
   submissionDate?: string; // ISO date string
   time?: string; // e.g. "10:00 AM"
   room?: string; // e.g. "Room 301"

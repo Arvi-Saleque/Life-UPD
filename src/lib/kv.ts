@@ -71,25 +71,33 @@ export async function upsertEvent(event: LifeEvent): Promise<void> {
     weekEvents.push(event);
   }
 
-  // Update calendar key
-  const calKey = `cal:${event.date}`;
-  const calEvents = redis
-    ? ((await redis.get<LifeEvent[]>(calKey)) ?? [])
-    : (memoryStore[calKey] ?? []);
+  // Update calendar key (only if date is set)
+  if (event.date) {
+    const calKey = `cal:${event.date}`;
+    const calEvents = redis
+      ? ((await redis.get<LifeEvent[]>(calKey)) ?? [])
+      : (memoryStore[calKey] ?? []);
 
-  const existingCalIdx = calEvents.findIndex((e) => e.id === event.id);
-  if (existingCalIdx >= 0) {
-    calEvents[existingCalIdx] = event;
-  } else {
-    calEvents.push(event);
-  }
+    const existingCalIdx = calEvents.findIndex((e) => e.id === event.id);
+    if (existingCalIdx >= 0) {
+      calEvents[existingCalIdx] = event;
+    } else {
+      calEvents.push(event);
+    }
 
-  if (redis) {
-    await redis.set(weekKey, weekEvents);
-    await redis.set(calKey, calEvents);
+    if (redis) {
+      await redis.set(weekKey, weekEvents);
+      await redis.set(calKey, calEvents);
+    } else {
+      memoryStore[weekKey] = weekEvents;
+      memoryStore[calKey] = calEvents;
+    }
   } else {
-    memoryStore[weekKey] = weekEvents;
-    memoryStore[calKey] = calEvents;
+    if (redis) {
+      await redis.set(weekKey, weekEvents);
+    } else {
+      memoryStore[weekKey] = weekEvents;
+    }
   }
 }
 
@@ -112,6 +120,7 @@ export async function deleteEvent(eventId: string): Promise<void> {
       }
 
       // Also remove from calendar
+      if (!found.date) break;
       const calKey = `cal:${found.date}`;
       const calEvents = redis
         ? ((await redis.get<LifeEvent[]>(calKey)) ?? [])
@@ -138,8 +147,10 @@ export async function seedEvents(events: LifeEvent[]): Promise<void> {
     if (!byWeek[event.week]) byWeek[event.week] = [];
     byWeek[event.week].push(event);
 
-    if (!byDate[event.date]) byDate[event.date] = [];
-    byDate[event.date].push(event);
+    if (event.date) {
+      if (!byDate[event.date]) byDate[event.date] = [];
+      byDate[event.date].push(event);
+    }
   }
 
   const redis = getRedis();
