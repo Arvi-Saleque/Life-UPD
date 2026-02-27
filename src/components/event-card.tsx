@@ -153,7 +153,7 @@ export function EventCard({
       </DialogTrigger>
 
       {/* ── Detail Dialog ─────────────────────────── */}
-      <DialogContent className="border-white/10 bg-slate-950/95 backdrop-blur-2xl text-white sm:max-w-lg rounded-3xl">
+      <DialogContent className="border-white/10 bg-slate-950/95 backdrop-blur-2xl text-white sm:max-w-lg rounded-3xl overflow-hidden">
         <DialogHeader>
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <span
@@ -174,7 +174,7 @@ export function EventCard({
           <DialogTitle className="text-xl font-bold leading-tight">{event.title}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4 mt-2">
+        <div className="space-y-4 mt-2 overflow-hidden">
           {/* Course */}
           <div className="rounded-2xl glass p-4">
             <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Course</p>
@@ -251,10 +251,10 @@ export function EventCard({
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition rounded-lg hover:bg-blue-500/5 px-2 py-1.5 -mx-2"
+                    className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition rounded-lg hover:bg-blue-500/5 px-2 py-1.5 -mx-2 min-w-0 overflow-hidden"
                   >
                     <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                    <span className="truncate">{url}</span>
+                    <span className="truncate block min-w-0">{url}</span>
                   </a>
                 ))}
               </div>
