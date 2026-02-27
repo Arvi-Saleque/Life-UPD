@@ -5,14 +5,13 @@ import { LifeEvent } from "./types";
 let memoryStore: Record<string, LifeEvent[]> = {};
 
 function getRedis(): Redis | null {
-  if (
-    process.env.KV_REST_API_URL &&
-    process.env.KV_REST_API_TOKEN
-  ) {
-    return new Redis({
-      url: process.env.KV_REST_API_URL,
-      token: process.env.KV_REST_API_TOKEN,
-    });
+  const url =
+    process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token =
+    process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (url && token) {
+    return new Redis({ url, token });
   }
   return null;
 }
