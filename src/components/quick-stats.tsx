@@ -1,7 +1,7 @@
 "use client";
 
 import { LifeEvent } from "@/lib/types";
-import { getCourse } from "@/lib/courses";
+import { getCourse, COURSES } from "@/lib/courses";
 import { differenceInDays, parseISO, format } from "date-fns";
 import {
   FileText,
@@ -12,6 +12,7 @@ import {
   TrendingUp,
   AlertTriangle,
   Zap,
+  BarChart3,
 } from "lucide-react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef } from "react";
@@ -60,6 +61,18 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
   const urgentCount = upcoming.filter(
     (e) => differenceInDays(parseISO(e.date), now) <= 3
   ).length;
+
+  // Course load breakdown
+  const courseLoad = Object.entries(
+    events.reduce<Record<string, number>>((acc, e) => {
+      acc[e.course] = (acc[e.course] || 0) + 1;
+      return acc;
+    }, {})
+  )
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5);
+
+  const maxCourseEvents = courseLoad.length > 0 ? courseLoad[0][1] : 1;
 
   const stats = [
     {
@@ -219,6 +232,54 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
             </div>
           </motion.div>
         </div>
+
+        {/* Subject load breakdown */}
+        {courseLoad.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="mt-8 glass rounded-2xl p-5 sm:p-6"
+          >
+            <div className="flex items-center gap-2 mb-5">
+              <BarChart3 className="h-4 w-4 text-blue-400" />
+              <h3 className="text-sm font-semibold text-white">Busiest Courses</h3>
+            </div>
+            <div className="space-y-3">
+              {courseLoad.map(([code, count], i) => {
+                const course = getCourse(code);
+                const pct = Math.round((count / maxCourseEvents) * 100);
+                return (
+                  <motion.div
+                    key={code}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + i * 0.06 }}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className={`text-xs font-bold ${course.text}`}>{course.shortName}</span>
+                        <span className="text-[10px] text-slate-600 hidden sm:inline">{course.code}</span>
+                      </div>
+                      <span className="text-xs font-semibold text-slate-400">{count} events</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-slate-800/80 overflow-hidden">
+                      <motion.div
+                        className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
+                        initial={{ width: "0%" }}
+                        whileInView={{ width: `${pct}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.6 + i * 0.06 }}
+                      />
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

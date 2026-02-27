@@ -1,11 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Sparkles, ArrowDown } from "lucide-react";
+import { Calendar, Sparkles, ArrowDown, Target, Zap, BookOpen } from "lucide-react";
+import { differenceInDays } from "date-fns";
 
 export function Hero() {
+  const semesterEnd = new Date(2026, 3, 24); // April 24, 2026
+  const now = new Date();
+  const daysLeft = differenceInDays(semesterEnd, now);
+
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-slate-950">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-950">
       {/* Animated gradient orbs */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[120px] animate-float" />
@@ -13,16 +18,16 @@ export function Hero() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-indigo-500/10 blur-[150px] animate-float-slow" />
       </div>
 
-      {/* Grid pattern overlay */}
+      {/* Grid pattern */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
         }}
       />
 
-      <div className="relative mx-auto max-w-5xl px-6 py-20 text-center">
+      <div className="relative mx-auto max-w-5xl px-6 py-16 sm:py-20 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -78,17 +83,37 @@ export function Hero() {
           </a>
         </motion.div>
 
-        {/* Semester progress */}
+        {/* ─── Countdown + Progress Cards ─── */}
         <motion.div
-          className="mx-auto mt-20 max-w-lg"
+          className="mx-auto mt-16 sm:mt-20 max-w-2xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6 }}
         >
-          <div className="glass rounded-2xl p-6">
-            <div className="mb-4 flex justify-between text-sm">
+          {/* 3-column mini cards */}
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="glass rounded-2xl p-4 text-center">
+              <Target className="h-4 w-4 text-violet-400 mx-auto mb-2" />
+              <p className="text-2xl sm:text-3xl font-bold text-white">{daysLeft > 0 ? daysLeft : 0}</p>
+              <p className="text-[10px] sm:text-xs text-slate-500 font-medium mt-0.5">Days Left</p>
+            </div>
+            <div className="glass rounded-2xl p-4 text-center">
+              <BookOpen className="h-4 w-4 text-blue-400 mx-auto mb-2" />
+              <p className="text-2xl sm:text-3xl font-bold text-white">4</p>
+              <p className="text-[10px] sm:text-xs text-slate-500 font-medium mt-0.5">Weeks Left</p>
+            </div>
+            <div className="glass rounded-2xl p-4 text-center">
+              <Zap className="h-4 w-4 text-amber-400 mx-auto mb-2" />
+              <p className="text-2xl sm:text-3xl font-bold text-white">71%</p>
+              <p className="text-[10px] sm:text-xs text-slate-500 font-medium mt-0.5">Done</p>
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="glass rounded-2xl p-5">
+            <div className="mb-3 flex justify-between text-sm">
               <span className="text-slate-400 font-medium">Semester Progress</span>
-              <span className="text-white font-semibold">71%</span>
+              <span className="text-white font-semibold">10 / 14 weeks</span>
             </div>
             <div className="relative h-3 overflow-hidden rounded-full bg-slate-800/80">
               <motion.div
@@ -99,16 +124,34 @@ export function Hero() {
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/0 via-white/20 to-blue-500/0 animate-shimmer" />
             </div>
-            <div className="mt-3 flex justify-between text-xs text-slate-500">
-              <span>10 weeks completed</span>
-              <span>4 weeks remaining</span>
+            {/* Week markers */}
+            <div className="mt-2 flex justify-between">
+              {Array.from({ length: 14 }, (_, i) => (
+                <div
+                  key={i}
+                  className={`flex flex-col items-center ${i < 10 ? "opacity-40" : ""}`}
+                >
+                  <div
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      i < 10
+                        ? "bg-violet-400"
+                        : "bg-slate-600"
+                    }`}
+                  />
+                  <span className={`hidden sm:block text-[8px] mt-1 ${
+                    i >= 10 ? "text-slate-400 font-semibold" : "text-slate-600"
+                  }`}>
+                    {i + 1}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
-          className="mt-12 flex justify-center"
+          className="mt-10 flex justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.5 }}
@@ -116,8 +159,10 @@ export function Hero() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex flex-col items-center gap-2"
           >
-            <ArrowDown className="h-5 w-5 text-slate-600" />
+            <span className="text-[10px] text-slate-600 font-medium tracking-wider uppercase">Scroll</span>
+            <ArrowDown className="h-4 w-4 text-slate-600" />
           </motion.div>
         </motion.div>
       </div>
