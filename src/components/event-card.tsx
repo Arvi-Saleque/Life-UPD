@@ -14,8 +14,8 @@ import {
   CalendarDays,
   ExternalLink,
   AlertCircle,
+  Flame,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -37,14 +37,25 @@ const typeIcons: Record<string, React.ElementType> = {
   Other: HelpCircle,
 };
 
+const typeColors: Record<string, string> = {
+  CT: "text-rose-400 bg-rose-500/10 border-rose-500/20",
+  Assignment: "text-sky-400 bg-sky-500/10 border-sky-500/20",
+  "Lab Test": "text-amber-400 bg-amber-500/10 border-amber-500/20",
+  Project: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+  Seminar: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
+  Presentation: "text-pink-400 bg-pink-500/10 border-pink-500/20",
+  Quiz: "text-orange-400 bg-orange-500/10 border-orange-500/20",
+  Other: "text-slate-400 bg-slate-500/10 border-slate-500/20",
+};
+
 function getCountdown(dateStr?: string): { text: string; urgent: boolean } | null {
   if (!dateStr) return null;
   const days = differenceInDays(parseISO(dateStr), new Date());
   if (days < 0) return { text: "Past", urgent: false };
   if (days === 0) return { text: "Today!", urgent: true };
   if (days === 1) return { text: "Tomorrow", urgent: true };
-  if (days <= 3) return { text: `${days} days left`, urgent: true };
-  return { text: `${days} days left`, urgent: false };
+  if (days <= 3) return { text: `${days}d left`, urgent: true };
+  return { text: `${days}d left`, urgent: false };
 }
 
 export function EventCard({
@@ -57,68 +68,78 @@ export function EventCard({
   const course = getCourse(event.course);
   const Icon = typeIcons[event.type] || HelpCircle;
   const countdown = getCountdown(event.submissionDate || event.date);
+  const typeColor = typeColors[event.type] || typeColors.Other;
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.05 }}
-          className="group cursor-pointer rounded-2xl border border-slate-800 bg-slate-900/50 p-4 backdrop-blur transition-all hover:border-slate-700 hover:bg-slate-800/70 hover:shadow-lg hover:shadow-blue-500/5"
+          transition={{ duration: 0.4, delay: index * 0.06, ease: "easeOut" }}
+          className="group cursor-pointer rounded-2xl glass p-4 sm:p-5 hover-card relative overflow-hidden"
         >
-          <div className="flex items-start gap-3">
+          {/* Hover gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-violet-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+          <div className="relative flex items-start gap-4">
+            {/* Icon with course color */}
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${course.bg} transition-transform group-hover:scale-110`}
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${course.bg} ring-1 ring-white/5 transition-all duration-300 group-hover:scale-110 group-hover:ring-white/10`}
             >
               <Icon className={`h-5 w-5 ${course.text}`} />
             </div>
+
             <div className="min-w-0 flex-1">
-              <div className="mb-1 flex items-center gap-2">
+              {/* Badges row */}
+              <div className="mb-2 flex flex-wrap items-center gap-2">
                 <span
-                  className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[10px] font-semibold ${course.badge}`}
+                  className={`inline-flex items-center rounded-lg border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${course.badge}`}
                 >
                   {course.shortName}
                 </span>
-                <Badge
-                  variant="outline"
-                  className="border-slate-700 text-[10px] text-slate-400"
-                >
+                <span className={`inline-flex items-center rounded-lg border px-2 py-0.5 text-[10px] font-semibold ${typeColor}`}>
                   {event.type}
-                </Badge>
+                </span>
                 {countdown?.urgent && (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-red-500/10 px-1.5 py-0.5 text-[10px] font-medium text-red-400 animate-pulse">
-                    <AlertCircle className="h-3 w-3" />
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-red-500/15 border border-red-500/20 px-2 py-0.5 text-[10px] font-semibold text-red-400">
+                    <Flame className="h-3 w-3" />
                     {countdown.text}
                   </span>
                 )}
               </div>
-              <h3 className="text-sm font-semibold text-white group-hover:text-blue-300 transition-colors">
+
+              {/* Title */}
+              <h3 className="text-sm sm:text-[15px] font-semibold text-white transition-colors group-hover:text-blue-200 leading-snug">
                 {event.title}
               </h3>
-              <div className="mt-1.5 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+
+              {/* Meta info */}
+              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
                 {event.date && (
-                  <span className="flex items-center gap-1">
-                    <CalendarDays className="h-3 w-3" />
+                  <span className="flex items-center gap-1.5">
+                    <CalendarDays className="h-3.5 w-3.5 text-slate-600" />
                     {format(parseISO(event.date), "MMM d, yyyy")}
                   </span>
                 )}
                 {event.time && (
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="h-3.5 w-3.5 text-slate-600" />
                     {event.time}
                   </span>
                 )}
                 {event.room && (
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-3 w-3" />
+                  <span className="flex items-center gap-1.5">
+                    <MapPin className="h-3.5 w-3.5 text-slate-600" />
                     {event.room}
                   </span>
                 )}
               </div>
             </div>
+
+            {/* Countdown badge (non-urgent) */}
             {countdown && !countdown.urgent && (
-              <span className="shrink-0 rounded-lg bg-slate-800 px-2 py-1 text-[10px] text-slate-400">
+              <span className="shrink-0 rounded-xl bg-white/5 border border-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-400">
                 {countdown.text}
               </span>
             )}
@@ -126,88 +147,85 @@ export function EventCard({
         </motion.div>
       </DialogTrigger>
 
-      {/* Detail Dialog */}
-      <DialogContent className="border-slate-800 bg-slate-950 text-white sm:max-w-lg">
+      {/* ── Detail Dialog ─────────────────────────── */}
+      <DialogContent className="border-white/10 bg-slate-950/95 backdrop-blur-2xl text-white sm:max-w-lg rounded-3xl">
         <DialogHeader>
-          <div className="mb-2 flex items-center gap-2">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
             <span
-              className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-xs font-semibold ${course.badge}`}
+              className={`inline-flex items-center rounded-lg border px-3 py-1 text-xs font-bold uppercase tracking-wider ${course.badge}`}
             >
               {course.shortName}
             </span>
-            <Badge
-              variant="outline"
-              className="border-slate-700 text-xs text-slate-400"
-            >
+            <span className={`inline-flex items-center rounded-lg border px-3 py-1 text-xs font-semibold ${typeColor}`}>
               {event.type}
-            </Badge>
+            </span>
+            {countdown?.urgent && (
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-red-500/15 border border-red-500/20 px-3 py-1 text-xs font-semibold text-red-400 animate-pulse">
+                <AlertCircle className="h-3.5 w-3.5" />
+                {countdown.text}
+              </span>
+            )}
           </div>
-          <DialogTitle className="text-xl font-bold">{event.title}</DialogTitle>
+          <DialogTitle className="text-xl font-bold leading-tight">{event.title}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Course info */}
-          <div className="rounded-xl bg-slate-900 p-4">
-            <p className="text-xs font-medium text-slate-500 mb-1">Course</p>
-            <p className="text-sm text-slate-300">
+        <div className="space-y-4 mt-2">
+          {/* Course */}
+          <div className="rounded-2xl glass p-4">
+            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Course</p>
+            <p className="text-sm text-slate-200">
               {course.code} — {course.title}
             </p>
           </div>
 
           {/* Description */}
           {event.description && (
-            <div className="rounded-xl bg-slate-900 p-4">
-              <p className="text-xs font-medium text-slate-500 mb-1">
-                Description
-              </p>
+            <div className="rounded-2xl glass p-4">
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Description</p>
               <p className="text-sm leading-relaxed text-slate-300 whitespace-pre-wrap">
                 {event.description}
               </p>
             </div>
           )}
 
-          {/* Date/Time/Room grid */}
+          {/* Info grid */}
           <div className="grid grid-cols-2 gap-3">
             {event.date && (
-              <div className="rounded-xl bg-slate-900 p-3">
-                <p className="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+              <div className="rounded-2xl glass p-4">
+                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                   <CalendarDays className="h-3 w-3" /> Date
                 </p>
                 <p className="text-sm font-medium text-white">
-                  {format(parseISO(event.date), "EEEE, MMM d")}
+                  {format(parseISO(event.date), "EEE, MMM d")}
                 </p>
               </div>
             )}
             {event.time && (
-              <div className="rounded-xl bg-slate-900 p-3">
-                <p className="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+              <div className="rounded-2xl glass p-4">
+                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                   <Clock className="h-3 w-3" /> Time
                 </p>
                 <p className="text-sm font-medium text-white">{event.time}</p>
               </div>
             )}
             {event.room && (
-              <div className="rounded-xl bg-slate-900 p-3">
-                <p className="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+              <div className="rounded-2xl glass p-4">
+                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                   <MapPin className="h-3 w-3" /> Room
                 </p>
                 <p className="text-sm font-medium text-white">{event.room}</p>
               </div>
             )}
             {event.submissionDate && (
-              <div className="rounded-xl bg-slate-900 p-3">
-                <p className="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
-                  <CalendarDays className="h-3 w-3" /> Submission
+              <div className="rounded-2xl glass p-4">
+                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+                  <CalendarDays className="h-3 w-3" /> Due
                 </p>
                 <p className="text-sm font-medium text-white">
                   {format(parseISO(event.submissionDate), "MMM d, yyyy")}
                 </p>
                 {countdown && (
-                  <p
-                    className={`mt-0.5 text-xs ${
-                      countdown.urgent ? "text-red-400" : "text-slate-500"
-                    }`}
-                  >
+                  <p className={`mt-1 text-xs ${countdown.urgent ? "text-red-400" : "text-slate-500"}`}>
                     {countdown.text}
                   </p>
                 )}
@@ -217,21 +235,19 @@ export function EventCard({
 
           {/* Resources */}
           {event.resources && event.resources.length > 0 && (
-            <div className="rounded-xl bg-slate-900 p-4">
-              <p className="text-xs font-medium text-slate-500 mb-2">
-                Resources
-              </p>
-              <div className="space-y-1.5">
+            <div className="rounded-2xl glass p-4">
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Resources</p>
+              <div className="space-y-2">
                 {event.resources.map((url, i) => (
                   <a
                     key={i}
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition"
+                    className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition rounded-lg hover:bg-blue-500/5 px-2 py-1.5 -mx-2"
                   >
-                    <ExternalLink className="h-3 w-3" />
-                    {url}
+                    <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">{url}</span>
                   </a>
                 ))}
               </div>

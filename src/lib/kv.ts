@@ -1,8 +1,14 @@
 import { Redis } from "@upstash/redis";
 import { LifeEvent } from "./types";
 
-// In development without Redis, we use in-memory storage
-let memoryStore: Record<string, LifeEvent[]> = {};
+// Use globalThis to persist in-memory store across hot reloads in dev
+const globalForStore = globalThis as unknown as {
+  __lifeUpdateStore?: Record<string, LifeEvent[]>;
+};
+if (!globalForStore.__lifeUpdateStore) {
+  globalForStore.__lifeUpdateStore = {};
+}
+const memoryStore = globalForStore.__lifeUpdateStore;
 
 function getRedis(): Redis | null {
   const url =
