@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
       const events = await getDateEvents(date);
       return NextResponse.json(events);
     }
-    // Default: return all events
+    // Default: return Upcoming Events
     const events = await getAllEvents();
     return NextResponse.json(events);
   } catch {

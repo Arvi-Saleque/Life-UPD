@@ -26,7 +26,7 @@ export function Navbar() {
             href="/#all-events"
             className="rounded-xl px-4 py-2 text-sm text-slate-400 transition-all hover:text-white hover:bg-white/5"
           >
-            All Events
+            Upcoming Events
           </Link>
           <Link
             href="/#weekly"
@@ -65,7 +65,7 @@ export function Navbar() {
             onClick={() => setOpen(false)}
             className="block rounded-xl px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition"
           >
-            All Events
+            Upcoming Events
           </Link>
           <Link
             href="/#weekly"

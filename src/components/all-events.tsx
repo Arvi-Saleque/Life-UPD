@@ -146,7 +146,7 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-gradient mb-3">
-            All Events
+            Upcoming Events
           </h2>
           <p className="text-slate-400 max-w-md mx-auto">
             Every upcoming event — including ones where the week or date isn&apos;t confirmed yet

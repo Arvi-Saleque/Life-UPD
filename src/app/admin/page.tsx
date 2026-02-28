@@ -362,7 +362,7 @@ export default function AdminPage() {
                 </SelectContent>
               </Select>
               {!form.week && !form.date && (
-                <p className="text-[11px] text-amber-500/70">No week or date — event will appear in “All Events” only</p>
+                <p className="text-[11px] text-amber-500/70">No week or date — event will appear in “Upcoming Events” only</p>
               )}
             </div>
 
@@ -434,7 +434,7 @@ export default function AdminPage() {
       <div>
         <h2 className="mb-6 flex items-center gap-2 text-lg font-semibold text-white">
           <CalendarDays className="h-5 w-5 text-blue-400" />
-          All Events
+          Upcoming Events
           <span className="ml-2 rounded-lg bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-400">
             {events.length}
           </span>
