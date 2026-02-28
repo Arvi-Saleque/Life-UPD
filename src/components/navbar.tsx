@@ -23,6 +23,12 @@ export function Navbar() {
         {/* Desktop nav */}
         <div className="hidden sm:flex items-center gap-1">
           <Link
+            href="/#all-events"
+            className="rounded-xl px-4 py-2 text-sm text-slate-400 transition-all hover:text-white hover:bg-white/5"
+          >
+            All Events
+          </Link>
+          <Link
             href="/#weekly"
             className="rounded-xl px-4 py-2 text-sm text-slate-400 transition-all hover:text-white hover:bg-white/5"
           >
@@ -54,6 +60,13 @@ export function Navbar() {
       {/* Mobile menu */}
       {open && (
         <div className="sm:hidden border-t border-white/5 px-6 py-4 space-y-2 glass-strong">
+          <Link
+            href="/#all-events"
+            onClick={() => setOpen(false)}
+            className="block rounded-xl px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition"
+          >
+            All Events
+          </Link>
           <Link
             href="/#weekly"
             onClick={() => setOpen(false)}

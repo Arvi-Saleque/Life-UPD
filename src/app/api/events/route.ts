@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       time: body.time,
       room: body.room,
       resources: body.resources || [],
-      week: body.week,
+      week: body.week || undefined,
     };
 
     await upsertEvent(event);

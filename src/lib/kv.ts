@@ -39,7 +39,21 @@ export async function getAllEvents(): Promise<LifeEvent[]> {
     const events = await getWeekEvents(week);
     all.push(...events);
   }
+  // Also include unscheduled events (no week assigned)
+  const unscheduled = await getUnscheduledEvents();
+  all.push(...unscheduled);
   return all;
+}
+
+// ── Unscheduled events (no week) ───────────────────────────
+
+export async function getUnscheduledEvents(): Promise<LifeEvent[]> {
+  const redis = getRedis();
+  if (redis) {
+    const data = await redis.get<LifeEvent[]>("unscheduled");
+    return data ?? [];
+  }
+  return memoryStore["unscheduled"] ?? [];
 }
 
 // ── Date-based operations ──────────────────────────────────
@@ -58,17 +72,39 @@ export async function getDateEvents(date: string): Promise<LifeEvent[]> {
 export async function upsertEvent(event: LifeEvent): Promise<void> {
   const redis = getRedis();
 
-  // Update week key
-  const weekKey = `week:${event.week}`;
-  const weekEvents = redis
-    ? ((await redis.get<LifeEvent[]>(weekKey)) ?? [])
-    : (memoryStore[weekKey] ?? []);
+  // Determine storage key: week-based or unscheduled
+  const storageKey = event.week ? `week:${event.week}` : "unscheduled";
+  const storedEvents = redis
+    ? ((await redis.get<LifeEvent[]>(storageKey)) ?? [])
+    : (memoryStore[storageKey] ?? []);
 
-  const existingIdx = weekEvents.findIndex((e) => e.id === event.id);
+  // Remove from old location if it moved (e.g. week changed or removed)
+  // Check all possible keys
+  const allKeys = ["unscheduled", ...([11, 12, 13, 14].map(w => `week:${w}`))];
+  for (const key of allKeys) {
+    if (key === storageKey) continue;
+    const items = redis
+      ? ((await redis.get<LifeEvent[]>(key)) ?? [])
+      : (memoryStore[key] ?? []);
+    const oldIdx = items.findIndex((e) => e.id === event.id);
+    if (oldIdx >= 0) {
+      items.splice(oldIdx, 1);
+      if (redis) await redis.set(key, items);
+      else memoryStore[key] = items;
+    }
+  }
+
+  const existingIdx = storedEvents.findIndex((e) => e.id === event.id);
   if (existingIdx >= 0) {
-    weekEvents[existingIdx] = event;
+    storedEvents[existingIdx] = event;
   } else {
-    weekEvents.push(event);
+    storedEvents.push(event);
+  }
+
+  if (redis) {
+    await redis.set(storageKey, storedEvents);
+  } else {
+    memoryStore[storageKey] = storedEvents;
   }
 
   // Update calendar key (only if date is set)
@@ -86,17 +122,9 @@ export async function upsertEvent(event: LifeEvent): Promise<void> {
     }
 
     if (redis) {
-      await redis.set(weekKey, weekEvents);
       await redis.set(calKey, calEvents);
     } else {
-      memoryStore[weekKey] = weekEvents;
       memoryStore[calKey] = calEvents;
-    }
-  } else {
-    if (redis) {
-      await redis.set(weekKey, weekEvents);
-    } else {
-      memoryStore[weekKey] = weekEvents;
     }
   }
 }
@@ -104,32 +132,33 @@ export async function upsertEvent(event: LifeEvent): Promise<void> {
 export async function deleteEvent(eventId: string): Promise<void> {
   const redis = getRedis();
 
-  for (const week of [11, 12, 13, 14]) {
-    const weekKey = `week:${week}`;
-    const weekEvents = redis
-      ? ((await redis.get<LifeEvent[]>(weekKey)) ?? [])
-      : (memoryStore[weekKey] ?? []);
+  const allKeys = ["unscheduled", ...([11, 12, 13, 14].map(w => `week:${w}`))];
+  for (const key of allKeys) {
+    const items = redis
+      ? ((await redis.get<LifeEvent[]>(key)) ?? [])
+      : (memoryStore[key] ?? []);
 
-    const found = weekEvents.find((e) => e.id === eventId);
+    const found = items.find((e) => e.id === eventId);
     if (found) {
-      const filtered = weekEvents.filter((e) => e.id !== eventId);
+      const filtered = items.filter((e) => e.id !== eventId);
       if (redis) {
-        await redis.set(weekKey, filtered);
+        await redis.set(key, filtered);
       } else {
-        memoryStore[weekKey] = filtered;
+        memoryStore[key] = filtered;
       }
 
       // Also remove from calendar
-      if (!found.date) break;
-      const calKey = `cal:${found.date}`;
-      const calEvents = redis
-        ? ((await redis.get<LifeEvent[]>(calKey)) ?? [])
-        : (memoryStore[calKey] ?? []);
-      const filteredCal = calEvents.filter((e) => e.id !== eventId);
-      if (redis) {
-        await redis.set(calKey, filteredCal);
-      } else {
-        memoryStore[calKey] = filteredCal;
+      if (found.date) {
+        const calKey = `cal:${found.date}`;
+        const calEvents = redis
+          ? ((await redis.get<LifeEvent[]>(calKey)) ?? [])
+          : (memoryStore[calKey] ?? []);
+        const filteredCal = calEvents.filter((e) => e.id !== eventId);
+        if (redis) {
+          await redis.set(calKey, filteredCal);
+        } else {
+          memoryStore[calKey] = filteredCal;
+        }
       }
       break;
     }
@@ -144,8 +173,13 @@ export async function seedEvents(events: LifeEvent[]): Promise<void> {
   const byDate: Record<string, LifeEvent[]> = {};
 
   for (const event of events) {
-    if (!byWeek[event.week]) byWeek[event.week] = [];
-    byWeek[event.week].push(event);
+    if (event.week) {
+      if (!byWeek[event.week]) byWeek[event.week] = [];
+      byWeek[event.week].push(event);
+    } else {
+      if (!byWeek[0]) byWeek[0] = []; // 0 = unscheduled
+      byWeek[0].push(event);
+    }
 
     if (event.date) {
       if (!byDate[event.date]) byDate[event.date] = [];
@@ -156,14 +190,16 @@ export async function seedEvents(events: LifeEvent[]): Promise<void> {
   const redis = getRedis();
   if (redis) {
     for (const [week, evts] of Object.entries(byWeek)) {
-      await redis.set(`week:${week}`, evts);
+      const key = week === "0" ? "unscheduled" : `week:${week}`;
+      await redis.set(key, evts);
     }
     for (const [date, evts] of Object.entries(byDate)) {
       await redis.set(`cal:${date}`, evts);
     }
   } else {
     for (const [week, evts] of Object.entries(byWeek)) {
-      memoryStore[`week:${week}`] = evts;
+      const key = week === "0" ? "unscheduled" : `week:${week}`;
+      memoryStore[key] = evts;
     }
     for (const [date, evts] of Object.entries(byDate)) {
       memoryStore[`cal:${date}`] = evts;

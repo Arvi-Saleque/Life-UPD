@@ -19,7 +19,7 @@ export interface LifeEvent {
   time?: string; // e.g. "10:00 AM"
   room?: string; // e.g. "Room 301"
   resources?: string[]; // links
-  week: number; // 11-14
+  week?: number; // 11-14 (optional — week may be TBD)
 }
 
 export interface WeekInfo {

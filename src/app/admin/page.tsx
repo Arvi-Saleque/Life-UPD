@@ -50,7 +50,7 @@ interface EventFormData {
   time: string;
   room: string;
   resources: string;
-  week: number;
+  week: string; // "" for unset, or "11"-"14"
 }
 
 const emptyForm: EventFormData = {
@@ -63,14 +63,14 @@ const emptyForm: EventFormData = {
   time: "",
   room: "",
   resources: "",
-  week: 11,
+  week: "",
 };
 
-function getWeekFromDate(dateStr: string): number {
+function getWeekFromDate(dateStr: string): string {
   for (const w of WEEKS) {
-    if (dateStr >= w.startDate && dateStr <= w.endDate) return w.number;
+    if (dateStr >= w.startDate && dateStr <= w.endDate) return String(w.number);
   }
-  return 11;
+  return "";
 }
 
 export default function AdminPage() {
@@ -126,7 +126,7 @@ export default function AdminPage() {
         resources: form.resources
           ? form.resources.split(",").map((s) => s.trim())
           : [],
-        week: form.week,
+        week: form.week ? parseInt(form.week) : undefined,
       };
 
       const res = await fetch("/api/events", {
@@ -170,7 +170,7 @@ export default function AdminPage() {
       time: event.time || "",
       room: event.room || "",
       resources: event.resources?.join(", ") || "",
-      week: event.week,
+      week: event.week ? String(event.week) : "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -296,9 +296,6 @@ export default function AdminPage() {
                 onChange={(e) => handleDateChange(e.target.value)}
                 className="border-slate-700 bg-slate-800 text-white"
               />
-              {!form.date && (
-                <p className="text-[11px] text-amber-500/70">No date — set the week manually below</p>
-              )}
             </div>
 
             {/* Time */}
@@ -343,19 +340,20 @@ export default function AdminPage() {
               />
             </div>
 
-            {/* Week (auto-calculated, but editable) */}
+            {/* Week (auto-calculated from date, or manual) */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Week</Label>
+              <Label className="text-slate-300">Week <span className="text-slate-600 text-xs">(optional)</span></Label>
               <Select
-                value={String(form.week)}
+                value={form.week}
                 onValueChange={(val) =>
-                  setForm((prev) => ({ ...prev, week: parseInt(val) }))
+                  setForm((prev) => ({ ...prev, week: val === "none" ? "" : val }))
                 }
               >
                 <SelectTrigger className="border-slate-700 bg-slate-800 text-white">
-                  <SelectValue />
+                  <SelectValue placeholder="No week (TBD)" />
                 </SelectTrigger>
                 <SelectContent className="border-slate-700 bg-slate-900 text-white">
+                  <SelectItem value="none">No week (TBD)</SelectItem>
                   {WEEKS.map((w) => (
                     <SelectItem key={w.number} value={String(w.number)}>
                       Week {w.number}
@@ -363,6 +361,9 @@ export default function AdminPage() {
                   ))}
                 </SelectContent>
               </Select>
+              {!form.week && !form.date && (
+                <p className="text-[11px] text-amber-500/70">No week or date — event will appear in “All Events” only</p>
+              )}
             </div>
 
             {/* Description */}
@@ -475,7 +476,7 @@ export default function AdminPage() {
                           variant="outline"
                           className="border-slate-700 text-[10px] text-slate-500"
                         >
-                          W{event.week}
+                          {event.week ? `W${event.week}` : "No week"}
                         </Badge>
                       </div>
                       <p className="mt-1 text-sm font-medium text-white">
