@@ -45,15 +45,15 @@ export default function LoginPage() {
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-violet-600 shadow-lg shadow-blue-500/25">
             <GraduationCap className="h-7 w-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white">CR Login</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">CR Login</h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Enter the admin password to manage events
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-slate-300">
+            <Label htmlFor="password" className="text-slate-600 dark:text-slate-300">
               Password
             </Label>
             <div className="relative">
@@ -64,7 +64,7 @@ export default function LoginPage() {
                 placeholder="Enter admin password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-slate-800 bg-slate-900 pl-10 text-white placeholder:text-slate-600 focus:border-blue-500 focus:ring-blue-500/20"
+                className="border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 pl-10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-blue-500 focus:ring-blue-500/20"
                 required
               />
             </div>
@@ -90,7 +90,7 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-xs text-slate-600">
+        <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-600">
           Only the Class Representative has access
         </p>
       </div>

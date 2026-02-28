@@ -134,16 +134,27 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.4 0 0);
+  background: oklch(0.75 0 0);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.65 0 0);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.4 0 0);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.5 0 0);
 }
 
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
+  --grid-color: rgba(0, 0, 0, 0.1);
+}
+
+html.dark {
+  --grid-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ── WOW Effects ────────────────────────────────────── */
@@ -197,11 +208,21 @@ html {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.05) 50%,
+    rgba(0, 0, 0, 0.04) 50%,
     transparent 100%
   );
   background-size: 200% 100%;
   animation: shimmer 3s ease-in-out infinite;
+}
+
+.dark .animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
 }
 
 /* Glow pulse */
@@ -216,17 +237,31 @@ html {
 
 /* Glass card base */
 .glass {
-  background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: none;
 }
 
 .glass-strong {
-  background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.dark .glass-strong {
+  background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
 }
 
 /* Noise texture overlay */
@@ -241,6 +276,13 @@ html {
 
 /* Gradient text */
 .text-gradient {
+  background: linear-gradient(135deg, #1e293b 0%, #64748b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .text-gradient {
   background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -261,5 +303,9 @@ html {
 
 .hover-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 30px -12px rgba(96, 165, 250, 0.1);
+}
+
+.dark .hover-card:hover {
   box-shadow: 0 8px 30px -12px rgba(96, 165, 250, 0.15);
 }

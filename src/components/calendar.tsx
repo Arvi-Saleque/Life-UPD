@@ -78,14 +78,14 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
         >
           <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 backdrop-blur-sm">
             <CalIcon className="h-4 w-4 text-violet-400" />
-            <span className="text-xs font-semibold text-violet-300 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-violet-500 dark:text-violet-300 uppercase tracking-wider">
               Month View
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-gradient mb-3">
             Calendar
           </h2>
-          <p className="text-slate-400 max-w-md mx-auto">
+          <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">
             Tap a date to see what&apos;s happening
           </p>
         </motion.div>
@@ -98,12 +98,12 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
-          <h3 className="text-xl sm:text-2xl font-bold text-white">
+          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
             {format(currentMonth, "MMMM yyyy")}
           </h3>
           <button
             onClick={() => setCurrentMonth((prev) => addMonths(prev, 1))}
-            className="rounded-xl glass p-3 text-slate-400 transition-all hover:text-white hover:bg-white/5 active:scale-95"
+            className="rounded-xl glass p-3 text-slate-500 dark:text-slate-400 transition-all hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 active:scale-95"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -118,7 +118,7 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
           transition={{ duration: 0.5, delay: 0.1 }}
         >
           {/* Weekday headers */}
-          <div className="grid grid-cols-7 border-b border-white/5">
+          <div className="grid grid-cols-7 border-b border-slate-200 dark:border-white/5">
             {WEEKDAYS_FULL.map((day, i) => (
               <div
                 key={day}
@@ -143,12 +143,12 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
                 <button
                   key={i}
                   onClick={() => handleDateClick(day)}
-                  className={`group relative flex min-h-[60px] sm:min-h-[100px] flex-col items-start border-b border-r border-white/[0.03] p-1.5 sm:p-2.5 text-left transition-all duration-200 ${
+                  className={`group relative flex min-h-[60px] sm:min-h-[100px] flex-col items-start border-b border-r border-slate-100 dark:border-white/[0.03] p-1.5 sm:p-2.5 text-left transition-all duration-200 ${
                     inMonth
-                      ? "hover:bg-white/[0.03]"
+                      ? "hover:bg-slate-50 dark:hover:bg-white/[0.03]"
                       : "opacity-25"
-                  } ${today ? "bg-blue-500/[0.07]" : ""} ${
-                    hasEvents && inMonth ? "hover:bg-blue-500/[0.05]" : ""
+                  } ${today ? "bg-blue-50 dark:bg-blue-500/[0.07]" : ""} ${
+                    hasEvents && inMonth ? "hover:bg-blue-50 dark:hover:bg-blue-500/[0.05]" : ""
                   }`}
                 >
                   {/* Date number */}
@@ -157,8 +157,8 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
                       today
                         ? "flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-violet-500 text-white font-bold shadow-lg shadow-blue-500/30"
                         : inMonth
-                          ? "text-slate-300"
-                          : "text-slate-700"
+                          ? "text-slate-600 dark:text-slate-300"
+                          : "text-slate-300 dark:text-slate-700"
                     }`}
                   >
                     {format(day, "d")}
@@ -209,9 +209,9 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
 
         {/* Side sheet */}
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-          <SheetContent className="border-white/10 bg-slate-950/95 backdrop-blur-2xl text-white w-full sm:max-w-md">
+          <SheetContent className="border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl text-slate-900 dark:text-white w-full sm:max-w-md">
             <SheetHeader>
-              <SheetTitle className="text-white text-lg">
+              <SheetTitle className="text-slate-900 dark:text-white text-lg">
                 {selectedDate
                   ? format(selectedDate, "EEEE, MMMM d, yyyy")
                   : ""}
@@ -236,10 +236,10 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
                     className="flex flex-col items-center py-16 text-slate-500"
                   >
                     <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl glass">
-                      <CalIcon className="h-6 w-6 text-slate-600" />
+                      <CalIcon className="h-6 w-6 text-slate-400 dark:text-slate-600" />
                     </div>
                     <p className="text-sm font-medium">Nothing scheduled</p>
-                    <p className="text-xs text-slate-600 mt-1">This day is free!</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-600 mt-1">This day is free!</p>
                   </motion.div>
                 )}
               </AnimatePresence>

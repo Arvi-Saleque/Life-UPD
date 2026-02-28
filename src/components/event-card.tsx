@@ -85,7 +85,7 @@ export function EventCard({
           <div className="relative flex items-start gap-4">
             {/* Icon with course color */}
             <div
-              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${course.bg} ring-1 ring-white/5 transition-all duration-300 group-hover:scale-110 group-hover:ring-white/10`}
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${course.bg} ring-1 ring-slate-200 dark:ring-white/5 transition-all duration-300 group-hover:scale-110 group-hover:ring-slate-300 dark:group-hover:ring-white/10`}
             >
               <Icon className={`h-5 w-5 ${course.text}`} />
             </div>
@@ -110,7 +110,7 @@ export function EventCard({
               </div>
 
               {/* Title */}
-              <h3 className="text-sm sm:text-[15px] font-semibold text-white transition-colors group-hover:text-blue-200 leading-snug">
+              <h3 className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-white transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-200 leading-snug">
                 {event.title}
               </h3>
 
@@ -118,7 +118,7 @@ export function EventCard({
               <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
                 {event.date ? (
                   <span className="flex items-center gap-1.5">
-                    <CalendarDays className="h-3.5 w-3.5 text-slate-600" />
+                    <CalendarDays className="h-3.5 w-3.5 text-slate-400 dark:text-slate-600" />
                     {format(parseISO(event.date), "MMM d, yyyy")}
                   </span>
                 ) : (
@@ -129,13 +129,13 @@ export function EventCard({
                 )}
                 {event.time && (
                   <span className="flex items-center gap-1.5">
-                    <Clock className="h-3.5 w-3.5 text-slate-600" />
+                    <Clock className="h-3.5 w-3.5 text-slate-400 dark:text-slate-600" />
                     {event.time}
                   </span>
                 )}
                 {event.room && (
                   <span className="flex items-center gap-1.5">
-                    <MapPin className="h-3.5 w-3.5 text-slate-600" />
+                    <MapPin className="h-3.5 w-3.5 text-slate-400 dark:text-slate-600" />
                     {event.room}
                   </span>
                 )}
@@ -144,7 +144,7 @@ export function EventCard({
 
             {/* Countdown badge (non-urgent) */}
             {countdown && !countdown.urgent && (
-              <span className="shrink-0 rounded-xl bg-white/5 border border-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-400">
+              <span className="shrink-0 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 px-3 py-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
                 {countdown.text}
               </span>
             )}
@@ -153,7 +153,7 @@ export function EventCard({
       </DialogTrigger>
 
       {/* ── Detail Dialog ─────────────────────────── */}
-      <DialogContent className="border-white/10 bg-slate-950/95 backdrop-blur-2xl text-white sm:max-w-lg rounded-3xl overflow-hidden">
+      <DialogContent className="border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl text-slate-900 dark:text-white sm:max-w-lg rounded-3xl overflow-hidden">
         <DialogHeader>
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <span
@@ -178,7 +178,7 @@ export function EventCard({
           {/* Course */}
           <div className="rounded-2xl glass p-4">
             <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Course</p>
-            <p className="text-sm text-slate-200">
+            <p className="text-sm text-slate-600 dark:text-slate-200">
               {course.code} — {course.title}
             </p>
           </div>
@@ -187,7 +187,7 @@ export function EventCard({
           {event.description && (
             <div className="rounded-2xl glass p-4">
               <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Description</p>
-              <p className="text-sm leading-relaxed text-slate-300 whitespace-pre-wrap">
+              <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300 whitespace-pre-wrap">
                 {event.description}
               </p>
             </div>
@@ -200,11 +200,11 @@ export function EventCard({
                 <CalendarDays className="h-3 w-3" /> Date
               </p>
               {event.date ? (
-                <p className="text-sm font-medium text-white">
+                <p className="text-sm font-medium text-slate-900 dark:text-white">
                   {format(parseISO(event.date), "EEE, MMM d")}
                 </p>
               ) : (
-                <p className="text-sm font-medium text-amber-400/80">TBD</p>
+                <p className="text-sm font-medium text-amber-500 dark:text-amber-400/80">TBD</p>
               )}
             </div>
             {event.time && (
@@ -212,7 +212,7 @@ export function EventCard({
                 <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                   <Clock className="h-3 w-3" /> Time
                 </p>
-                <p className="text-sm font-medium text-white">{event.time}</p>
+                <p className="text-sm font-medium text-slate-900 dark:text-white">{event.time}</p>
               </div>
             )}
             {event.room && (
@@ -220,7 +220,7 @@ export function EventCard({
                 <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                   <MapPin className="h-3 w-3" /> Room
                 </p>
-                <p className="text-sm font-medium text-white">{event.room}</p>
+                <p className="text-sm font-medium text-slate-900 dark:text-white">{event.room}</p>
               </div>
             )}
             {event.submissionDate && (
@@ -228,7 +228,7 @@ export function EventCard({
                 <p className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                   <CalendarDays className="h-3 w-3" /> Due
                 </p>
-                <p className="text-sm font-medium text-white">
+                <p className="text-sm font-medium text-slate-900 dark:text-white">
                   {format(parseISO(event.submissionDate), "MMM d, yyyy")}
                 </p>
                 {countdown && (

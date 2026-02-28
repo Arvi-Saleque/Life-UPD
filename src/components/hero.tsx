@@ -10,19 +10,19 @@ export function Hero() {
   const daysLeft = differenceInDays(semesterEnd, now);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-950">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950">
       {/* Animated gradient orbs */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[120px] animate-float" />
-        <div className="absolute -bottom-40 -right-40 h-[400px] w-[400px] rounded-full bg-violet-600/20 blur-[120px] animate-float-delayed" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-indigo-500/10 blur-[150px] animate-float-slow" />
+        <div className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-blue-600/10 dark:bg-blue-600/20 blur-[120px] animate-float" />
+        <div className="absolute -bottom-40 -right-40 h-[400px] w-[400px] rounded-full bg-violet-600/10 dark:bg-violet-600/20 blur-[120px] animate-float-delayed" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-indigo-500/5 dark:bg-indigo-500/10 blur-[150px] animate-float-slow" />
       </div>
 
       {/* Grid pattern */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(var(--grid-color, rgba(0,0,0,0.1)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color, rgba(0,0,0,0.1)) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
         }}
       />
@@ -35,7 +35,7 @@ export function Hero() {
         >
           <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-5 py-2 backdrop-blur-sm">
             <Sparkles className="h-4 w-4 text-blue-400" />
-            <span className="text-sm font-medium text-blue-300 tracking-wide">
+            <span className="text-sm font-medium text-blue-500 dark:text-blue-300 tracking-wide">
               CSE 6th Semester &bull; Weeks 11–14
             </span>
           </div>
@@ -52,7 +52,7 @@ export function Hero() {
         </motion.h1>
 
         <motion.p
-          className="mx-auto mb-10 max-w-xl text-base sm:text-lg text-slate-400 leading-relaxed"
+          className="mx-auto mb-10 max-w-xl text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
@@ -77,7 +77,7 @@ export function Hero() {
           </a>
           <a
             href="#calendar"
-            className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-8 py-4 text-sm font-semibold text-slate-300 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10 hover:text-white hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-2xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 px-8 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300 backdrop-blur-sm transition-all hover:border-slate-400 dark:hover:border-white/20 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white hover:scale-[1.02] active:scale-[0.98]"
           >
             Calendar View
           </a>
@@ -94,28 +94,28 @@ export function Hero() {
           <div className="grid grid-cols-3 gap-3 mb-4">
             <div className="glass rounded-2xl p-4 text-center">
               <Target className="h-4 w-4 text-violet-400 mx-auto mb-2" />
-              <p className="text-2xl sm:text-3xl font-bold text-white">{daysLeft > 0 ? daysLeft : 0}</p>
-              <p className="text-[10px] sm:text-xs text-slate-500 font-medium mt-0.5">Days Left</p>
+              <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{daysLeft > 0 ? daysLeft : 0}</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Days Left</p>
             </div>
             <div className="glass rounded-2xl p-4 text-center">
               <BookOpen className="h-4 w-4 text-blue-400 mx-auto mb-2" />
-              <p className="text-2xl sm:text-3xl font-bold text-white">4</p>
-              <p className="text-[10px] sm:text-xs text-slate-500 font-medium mt-0.5">Weeks Left</p>
+              <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">4</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Weeks Left</p>
             </div>
             <div className="glass rounded-2xl p-4 text-center">
               <Zap className="h-4 w-4 text-amber-400 mx-auto mb-2" />
-              <p className="text-2xl sm:text-3xl font-bold text-white">71%</p>
-              <p className="text-[10px] sm:text-xs text-slate-500 font-medium mt-0.5">Done</p>
+              <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">71%</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Done</p>
             </div>
           </div>
 
           {/* Progress bar */}
           <div className="glass rounded-2xl p-5">
             <div className="mb-3 flex justify-between text-sm">
-              <span className="text-slate-400 font-medium">Semester Progress</span>
-              <span className="text-white font-semibold">10 / 14 weeks</span>
+              <span className="text-slate-500 dark:text-slate-400 font-medium">Semester Progress</span>
+              <span className="text-slate-900 dark:text-white font-semibold">10 / 14 weeks</span>
             </div>
-            <div className="relative h-3 overflow-hidden rounded-full bg-slate-800/80">
+            <div className="relative h-3 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800/80">
               <motion.div
                 className="h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500"
                 initial={{ width: "0%" }}
@@ -135,11 +135,11 @@ export function Hero() {
                     className={`h-1.5 w-1.5 rounded-full ${
                       i < 10
                         ? "bg-violet-400"
-                        : "bg-slate-600"
+                        : "bg-slate-300 dark:bg-slate-600"
                     }`}
                   />
                   <span className={`hidden sm:block text-[8px] mt-1 ${
-                    i >= 10 ? "text-slate-400 font-semibold" : "text-slate-600"
+                    i >= 10 ? "text-slate-500 dark:text-slate-400 font-semibold" : "text-slate-400 dark:text-slate-600"
                   }`}>
                     {i + 1}
                   </span>
@@ -161,8 +161,8 @@ export function Hero() {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2"
           >
-            <span className="text-[10px] text-slate-600 font-medium tracking-wider uppercase">Scroll</span>
-            <ArrowDown className="h-4 w-4 text-slate-600" />
+            <span className="text-[10px] text-slate-400 dark:text-slate-600 font-medium tracking-wider uppercase">Scroll</span>
+            <ArrowDown className="h-4 w-4 text-slate-400 dark:text-slate-600" />
           </motion.div>
         </motion.div>
       </div>

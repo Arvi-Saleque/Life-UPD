@@ -31,8 +31,8 @@ const FILTER_OPTIONS: {
     label: "All",
     icon: SlidersHorizontal,
     color: "text-slate-400",
-    activeBg: "bg-white/10 border-white/20",
-    activeText: "text-white",
+    activeBg: "bg-slate-900/10 border-slate-900/20 dark:bg-white/10 dark:border-white/20",
+    activeText: "text-slate-900 dark:text-white",
   },
   {
     type: "CT",
@@ -141,14 +141,14 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
         >
           <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 backdrop-blur-sm">
             <Layers className="h-4 w-4 text-violet-400" />
-            <span className="text-xs font-semibold text-violet-300 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-violet-500 dark:text-violet-300 uppercase tracking-wider">
               Everything at a glance
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-gradient mb-3">
             Upcoming Events
           </h2>
-          <p className="text-slate-400 max-w-md mx-auto">
+          <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">
             Every upcoming event — including ones where the week or date isn&apos;t confirmed yet
           </p>
         </motion.div>
@@ -158,7 +158,7 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
           <div className="flex items-center gap-3">
             <div className="hidden sm:block h-8 w-1 rounded-full bg-gradient-to-b from-violet-500 to-fuchsia-500" />
             <div>
-              <p className="text-sm sm:text-base font-semibold text-white">
+              <p className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white">
                 {events.length} event{events.length !== 1 ? "s" : ""} total
               </p>
               <p className="text-xs text-slate-500">
@@ -202,7 +202,7 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
                   className={`group inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition-all duration-200 active:scale-95 ${
                     isActive
                       ? `${filter.activeBg} ${filter.activeText}`
-                      : "border-white/5 bg-white/[0.02] text-slate-500 hover:bg-white/[0.05] hover:text-slate-300 hover:border-white/10"
+                      : "border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] text-slate-500 hover:bg-slate-100 dark:hover:bg-white/[0.05] hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-white/10"
                   }`}
                 >
                   <filter.icon
@@ -218,7 +218,7 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
                   </span>
                   <span
                     className={`ml-0.5 tabular-nums rounded-md px-1.5 py-0.5 text-[10px] ${
-                      isActive ? "bg-white/10" : "bg-white/5"
+                      isActive ? "bg-black/5 dark:bg-white/10" : "bg-black/5 dark:bg-white/5"
                     }`}
                   >
                     {count}
@@ -230,7 +230,7 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
             {activeFilter !== "All" && (
               <button
                 onClick={() => setActiveFilter("All")}
-                className="inline-flex items-center gap-1 rounded-xl border border-white/5 px-2.5 py-2 text-xs text-slate-500 hover:text-white hover:bg-white/5 transition-all"
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 dark:border-white/5 px-2.5 py-2 text-xs text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all"
               >
                 <X className="h-3 w-3" />
                 Clear
@@ -251,9 +251,9 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
               className="space-y-3"
             >
               {activeFilter !== "All" && (
-                <div className="mb-4 flex items-center gap-2 text-sm text-slate-400">
+                <div className="mb-4 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
                   <span>Showing</span>
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold text-slate-900 dark:text-white">
                     {filteredEvents.length}
                   </span>
                   <span>
@@ -275,14 +275,14 @@ export function AllEvents({ events }: { events: LifeEvent[] }) {
               className="flex flex-col items-center justify-center py-20 text-slate-500"
             >
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl glass">
-                <Inbox className="h-7 w-7 text-slate-600" />
+                <Inbox className="h-7 w-7 text-slate-400 dark:text-slate-600" />
               </div>
               <p className="text-sm font-medium">
                 No {activeFilter}s found
               </p>
               <button
                 onClick={() => setActiveFilter("All")}
-                className="mt-4 inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/10 transition"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition"
               >
                 <X className="h-3 w-3" />
                 Clear filter

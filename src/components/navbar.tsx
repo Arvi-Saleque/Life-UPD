@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { GraduationCap, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -24,22 +25,23 @@ export function Navbar() {
         <div className="hidden sm:flex items-center gap-1">
           <Link
             href="/#all-events"
-            className="rounded-xl px-4 py-2 text-sm text-slate-400 transition-all hover:text-white hover:bg-white/5"
+            className="rounded-xl px-4 py-2 text-sm text-slate-500 dark:text-slate-400 transition-all hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           >
             Upcoming Events
           </Link>
           <Link
             href="/#weekly"
-            className="rounded-xl px-4 py-2 text-sm text-slate-400 transition-all hover:text-white hover:bg-white/5"
+            className="rounded-xl px-4 py-2 text-sm text-slate-500 dark:text-slate-400 transition-all hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           >
             Weekly
           </Link>
           <Link
             href="/#calendar"
-            className="rounded-xl px-4 py-2 text-sm text-slate-400 transition-all hover:text-white hover:bg-white/5"
+            className="rounded-xl px-4 py-2 text-sm text-slate-500 dark:text-slate-400 transition-all hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
           >
             Calendar
           </Link>
+          <ThemeToggle />
           <Link
             href="/admin/login"
             className="ml-2 rounded-xl bg-gradient-to-r from-blue-600/80 to-violet-600/80 px-5 py-2 text-sm font-medium text-white transition-all hover:from-blue-600 hover:to-violet-600 hover:shadow-lg hover:shadow-blue-500/20"
@@ -49,35 +51,38 @@ export function Navbar() {
         </div>
 
         {/* Mobile hamburger */}
-        <button
-          className="sm:hidden rounded-xl p-2 text-slate-400 hover:text-white hover:bg-white/5 transition"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex sm:hidden items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div className="sm:hidden border-t border-white/5 px-6 py-4 space-y-2 glass-strong">
+        <div className="sm:hidden border-t border-slate-200 dark:border-white/5 px-6 py-4 space-y-2 glass-strong">
           <Link
             href="/#all-events"
             onClick={() => setOpen(false)}
-            className="block rounded-xl px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition"
+            className="block rounded-xl px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition"
           >
             Upcoming Events
           </Link>
           <Link
             href="/#weekly"
             onClick={() => setOpen(false)}
-            className="block rounded-xl px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition"
+            className="block rounded-xl px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition"
           >
             Weekly Schedule
           </Link>
           <Link
             href="/#calendar"
             onClick={() => setOpen(false)}
-            className="block rounded-xl px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition"
+            className="block rounded-xl px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition"
           >
             Calendar
           </Link>

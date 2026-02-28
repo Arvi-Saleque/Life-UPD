@@ -128,10 +128,10 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
                 <div className={`mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${stat.iconBg} transition-transform group-hover:scale-110`}>
                   <stat.icon className={`h-5 w-5 ${stat.iconColor}`} />
                 </div>
-                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">
+                <p className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-1">
                   <AnimatedNumber value={stat.value} />
                 </p>
-                <p className="text-xs sm:text-sm text-slate-400 font-medium">{stat.label}</p>
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">{stat.label}</p>
               </div>
             </motion.div>
           ))}
@@ -154,15 +154,15 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs text-blue-400 font-semibold uppercase tracking-wider mb-0.5">Coming Up Next</p>
-                  <p className="text-sm font-semibold text-white truncate">
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                     {next.title}
                   </p>
-                  <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-2">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-2">
                     <span className={`${nextCourse.text} font-medium`}>{nextCourse.shortName}</span>
-                    <span className="text-slate-600">&bull;</span>
+                    <span className="text-slate-300 dark:text-slate-600">&bull;</span>
                     <span>{next.date ? format(parseISO(next.date), "MMM d") : "TBD"}</span>
-                    <span className="text-slate-600">&bull;</span>
-                    <span className="text-white font-medium">
+                    <span className="text-slate-300 dark:text-slate-600">&bull;</span>
+                    <span className="text-slate-900 dark:text-white font-medium">
                       {nextDaysLeft === 0
                         ? "Today"
                         : nextDaysLeft === 1
@@ -205,16 +205,16 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
                 {urgentCount > 0 ? (
                   <>
                     <p className="text-xs text-red-400 font-semibold uppercase tracking-wider mb-0.5">Attention</p>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
                       {urgentCount} event{urgentCount !== 1 ? "s" : ""} within 3 days
                     </p>
-                    <p className="text-xs text-slate-400 mt-0.5">Don&apos;t miss upcoming deadlines</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Don&apos;t miss upcoming deadlines</p>
                   </>
                 ) : (
                   <>
                     <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-0.5">All Clear</p>
-                    <p className="text-sm font-semibold text-white">No urgent deadlines</p>
-                    <p className="text-xs text-slate-400 mt-0.5">{upcoming.length} events ahead</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">No urgent deadlines</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{upcoming.length} events ahead</p>
                   </>
                 )}
               </div>

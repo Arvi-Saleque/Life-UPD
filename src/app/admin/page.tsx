@@ -191,15 +191,15 @@ export default function AdminPage() {
       {/* Header */}
       <div className="mb-10 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Admin Dashboard</h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Manage events for weeks 11–14
           </p>
         </div>
         <Button
           variant="outline"
           onClick={handleLogout}
-          className="border-slate-700 text-slate-400 hover:text-white"
+          className="border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
         >
           <LogOut className="mr-2 h-4 w-4" />
           Logout
@@ -207,8 +207,8 @@ export default function AdminPage() {
       </div>
 
       {/* Event Form */}
-      <div className="mb-12 rounded-2xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur">
-        <h2 className="mb-6 flex items-center gap-2 text-lg font-semibold text-white">
+      <div className="mb-12 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-6 backdrop-blur">
+        <h2 className="mb-6 flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-white">
           {editingId ? (
             <>
               <Edit3 className="h-5 w-5 text-amber-400" />
@@ -226,7 +226,7 @@ export default function AdminPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {/* Title */}
             <div className="space-y-2 sm:col-span-2">
-              <Label className="text-slate-300">Title *</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Title *</Label>
               <Input
                 required
                 value={form.title}
@@ -234,13 +234,13 @@ export default function AdminPage() {
                   setForm((prev) => ({ ...prev, title: e.target.value }))
                 }
                 placeholder="e.g. AI CT-1"
-                className="border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
             </div>
 
             {/* Course */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Course *</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Course *</Label>
               <Select
                 required
                 value={form.course}
@@ -248,10 +248,10 @@ export default function AdminPage() {
                   setForm((prev) => ({ ...prev, course: val }))
                 }
               >
-                <SelectTrigger className="border-slate-700 bg-slate-800 text-white">
+                <SelectTrigger className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                   <SelectValue placeholder="Select course" />
                 </SelectTrigger>
-                <SelectContent className="border-slate-700 bg-slate-900 text-white">
+                <SelectContent className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                   {COURSE_LIST.map((c) => (
                     <SelectItem key={c.code} value={c.code}>
                       {c.code} — {c.shortName}
@@ -263,7 +263,7 @@ export default function AdminPage() {
 
             {/* Type */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Event Type *</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Event Type *</Label>
               <Select
                 required
                 value={form.type}
@@ -274,10 +274,10 @@ export default function AdminPage() {
                   }))
                 }
               >
-                <SelectTrigger className="border-slate-700 bg-slate-800 text-white">
+                <SelectTrigger className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
-                <SelectContent className="border-slate-700 bg-slate-900 text-white">
+                <SelectContent className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                   {EVENT_TYPES.map((t) => (
                     <SelectItem key={t} value={t}>
                       {t}
@@ -289,44 +289,44 @@ export default function AdminPage() {
 
             {/* Date */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Date <span className="text-slate-600 text-xs">(optional)</span></Label>
+              <Label className="text-slate-600 dark:text-slate-300">Date <span className="text-slate-400 dark:text-slate-600 text-xs">(optional)</span></Label>
               <Input
                 type="date"
                 value={form.date}
                 onChange={(e) => handleDateChange(e.target.value)}
-                className="border-slate-700 bg-slate-800 text-white"
+                className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               />
             </div>
 
             {/* Time */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Time</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Time</Label>
               <Input
                 value={form.time}
                 onChange={(e) =>
                   setForm((prev) => ({ ...prev, time: e.target.value }))
                 }
                 placeholder="e.g. 10:00 AM"
-                className="border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
             </div>
 
             {/* Room */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Room</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Room</Label>
               <Input
                 value={form.room}
                 onChange={(e) =>
                   setForm((prev) => ({ ...prev, room: e.target.value }))
                 }
                 placeholder="e.g. Room 301"
-                className="border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
             </div>
 
             {/* Submission Date */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Submission Date</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Submission Date</Label>
               <Input
                 type="date"
                 value={form.submissionDate}
@@ -336,23 +336,23 @@ export default function AdminPage() {
                     submissionDate: e.target.value,
                   }))
                 }
-                className="border-slate-700 bg-slate-800 text-white"
+                className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
               />
             </div>
 
             {/* Week (auto-calculated from date, or manual) */}
             <div className="space-y-2">
-              <Label className="text-slate-300">Week <span className="text-slate-600 text-xs">(optional)</span></Label>
+              <Label className="text-slate-600 dark:text-slate-300">Week <span className="text-slate-400 dark:text-slate-600 text-xs">(optional)</span></Label>
               <Select
                 value={form.week}
                 onValueChange={(val) =>
                   setForm((prev) => ({ ...prev, week: val === "none" ? "" : val }))
                 }
               >
-                <SelectTrigger className="border-slate-700 bg-slate-800 text-white">
+                <SelectTrigger className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                   <SelectValue placeholder="No week (TBD)" />
                 </SelectTrigger>
-                <SelectContent className="border-slate-700 bg-slate-900 text-white">
+                <SelectContent className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                   <SelectItem value="none">No week (TBD)</SelectItem>
                   {WEEKS.map((w) => (
                     <SelectItem key={w.number} value={String(w.number)}>
@@ -368,7 +368,7 @@ export default function AdminPage() {
 
             {/* Description */}
             <div className="space-y-2 sm:col-span-2">
-              <Label className="text-slate-300">Description</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Description</Label>
               <Textarea
                 value={form.description}
                 onChange={(e) =>
@@ -379,13 +379,13 @@ export default function AdminPage() {
                 }
                 placeholder="Syllabus, instructions, notes..."
                 rows={3}
-                className="border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
             </div>
 
             {/* Resources */}
             <div className="space-y-2 sm:col-span-2">
-              <Label className="text-slate-300">
+              <Label className="text-slate-600 dark:text-slate-300">
                 Resources (comma-separated URLs)
               </Label>
               <Input
@@ -397,7 +397,7 @@ export default function AdminPage() {
                   }))
                 }
                 placeholder="https://link1.com, https://link2.com"
-                className="border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
             </div>
           </div>
@@ -420,7 +420,7 @@ export default function AdminPage() {
                 type="button"
                 variant="outline"
                 onClick={cancelEdit}
-                className="border-slate-700 text-slate-400"
+                className="border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400"
               >
                 <X className="mr-2 h-4 w-4" />
                 Cancel
@@ -432,7 +432,7 @@ export default function AdminPage() {
 
       {/* Events List */}
       <div>
-        <h2 className="mb-6 flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="mb-6 flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-white">
           <CalendarDays className="h-5 w-5 text-blue-400" />
           Upcoming Events
           <span className="ml-2 rounded-lg bg-blue-500/10 px-2 py-0.5 text-xs font-medium text-blue-400">
@@ -445,7 +445,7 @@ export default function AdminPage() {
             <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
           </div>
         ) : events.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-800 py-12 text-center text-slate-500">
+          <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 py-12 text-center text-slate-500">
             <p className="text-sm">No events yet. Add one above!</p>
           </div>
         ) : (
@@ -457,7 +457,7 @@ export default function AdminPage() {
                 return (
                   <div
                     key={event.id}
-                    className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 p-3 transition hover:border-slate-700"
+                    className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-3 transition hover:border-slate-300 dark:hover:border-slate-700"
                   >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
@@ -468,18 +468,18 @@ export default function AdminPage() {
                         </span>
                         <Badge
                           variant="outline"
-                          className="border-slate-700 text-[10px] text-slate-400"
+                          className="border-slate-300 dark:border-slate-700 text-[10px] text-slate-500 dark:text-slate-400"
                         >
                           {event.type}
                         </Badge>
                         <Badge
                           variant="outline"
-                          className="border-slate-700 text-[10px] text-slate-500"
+                          className="border-slate-300 dark:border-slate-700 text-[10px] text-slate-400 dark:text-slate-500"
                         >
                           {event.week ? `W${event.week}` : "No week"}
                         </Badge>
                       </div>
-                      <p className="mt-1 text-sm font-medium text-white">
+                      <p className="mt-1 text-sm font-medium text-slate-900 dark:text-white">
                         {event.title}
                       </p>
                       <p className="text-xs text-slate-500">
@@ -493,7 +493,7 @@ export default function AdminPage() {
                         size="sm"
                         variant="ghost"
                         onClick={() => handleEdit(event)}
-                        className="h-8 w-8 p-0 text-slate-400 hover:text-white"
+                        className="h-8 w-8 p-0 text-slate-400 hover:text-slate-900 dark:hover:text-white"
                       >
                         <Edit3 className="h-3.5 w-3.5" />
                       </Button>
@@ -501,7 +501,7 @@ export default function AdminPage() {
                         size="sm"
                         variant="ghost"
                         onClick={() => handleDelete(event.id)}
-                        className="h-8 w-8 p-0 text-slate-400 hover:text-red-400"
+                        className="h-8 w-8 p-0 text-slate-400 hover:text-red-500 dark:hover:text-red-400"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
