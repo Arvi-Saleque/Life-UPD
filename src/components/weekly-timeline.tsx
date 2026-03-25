@@ -166,7 +166,7 @@ export function WeeklyTimeline({ events }: { events: LifeEvent[] }) {
 
         {/* ─── Week Selector ─── */}
         <div className="mb-6 flex justify-center">
-          <div className="inline-flex items-center gap-2 sm:gap-3 p-1.5 rounded-2xl glass">
+          <div className="inline-flex items-center gap-1.5 sm:gap-3 p-1.5 rounded-2xl glass overflow-x-auto max-w-full">
             {WEEKS.map((week) => {
               const count = events.filter((e) => e.week === week.number).length;
               const isActive = currentWeek === week.number;
@@ -177,7 +177,7 @@ export function WeeklyTimeline({ events }: { events: LifeEvent[] }) {
                     setActiveWeek(week.number);
                     setActiveFilter("All");
                   }}
-                  className={`relative rounded-xl px-4 sm:px-6 py-3 sm:py-3.5 text-center transition-all duration-300 ${
+                  className={`relative shrink-0 rounded-xl px-3 sm:px-6 py-2.5 sm:py-3.5 text-center transition-all duration-300 ${
                     isActive
                       ? "bg-slate-900/10 dark:bg-white/10 shadow-lg"
                       : "hover:bg-slate-100 dark:hover:bg-white/[0.04]"

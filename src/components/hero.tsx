@@ -42,7 +42,7 @@ export function Hero() {
         </motion.div>
 
         <motion.h1
-          className="mb-6 text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight"
+          className="mb-6 text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
@@ -69,7 +69,7 @@ export function Hero() {
         >
           <a
             href="#weekly"
-            className="group relative inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 px-8 py-4 text-sm font-semibold text-white shadow-2xl shadow-blue-500/25 transition-all hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 px-6 sm:px-8 py-3.5 sm:py-4 text-sm font-semibold text-white shadow-2xl shadow-blue-500/25 transition-all hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-[0.98]"
           >
             <Calendar className="h-4 w-4 transition-transform group-hover:-rotate-12" />
             View Schedule
@@ -77,7 +77,7 @@ export function Hero() {
           </a>
           <a
             href="#calendar"
-            className="inline-flex items-center gap-2 rounded-2xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 px-8 py-4 text-sm font-semibold text-slate-600 dark:text-slate-300 backdrop-blur-sm transition-all hover:border-slate-400 dark:hover:border-white/20 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-2xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 px-6 sm:px-8 py-3.5 sm:py-4 text-sm font-semibold text-slate-600 dark:text-slate-300 backdrop-blur-sm transition-all hover:border-slate-400 dark:hover:border-white/20 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white hover:scale-[1.02] active:scale-[0.98]"
           >
             Calendar View
           </a>
@@ -91,27 +91,27 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.6 }}
         >
           {/* 3-column mini cards */}
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            <div className="glass rounded-2xl p-4 text-center">
-              <Target className="h-4 w-4 text-violet-400 mx-auto mb-2" />
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
+            <div className="glass rounded-2xl p-3 sm:p-4 text-center">
+              <Target className="h-4 w-4 text-violet-400 mx-auto mb-1.5 sm:mb-2" />
               <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{daysLeft > 0 ? daysLeft : 0}</p>
               <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Days Left</p>
             </div>
-            <div className="glass rounded-2xl p-4 text-center">
-              <BookOpen className="h-4 w-4 text-blue-400 mx-auto mb-2" />
+            <div className="glass rounded-2xl p-3 sm:p-4 text-center">
+              <BookOpen className="h-4 w-4 text-blue-400 mx-auto mb-1.5 sm:mb-2" />
               <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">4</p>
               <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Weeks Left</p>
             </div>
-            <div className="glass rounded-2xl p-4 text-center">
-              <Zap className="h-4 w-4 text-amber-400 mx-auto mb-2" />
+            <div className="glass rounded-2xl p-3 sm:p-4 text-center">
+              <Zap className="h-4 w-4 text-amber-400 mx-auto mb-1.5 sm:mb-2" />
               <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">71%</p>
               <p className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">Done</p>
             </div>
           </div>
 
           {/* Progress bar */}
-          <div className="glass rounded-2xl p-5">
-            <div className="mb-3 flex justify-between text-sm">
+          <div className="glass rounded-2xl p-3 sm:p-5">
+            <div className="mb-3 flex justify-between text-xs sm:text-sm">
               <span className="text-slate-500 dark:text-slate-400 font-medium">Semester Progress</span>
               <span className="text-slate-900 dark:text-white font-semibold">10 / 14 weeks</span>
             </div>

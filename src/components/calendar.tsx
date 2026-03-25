@@ -94,7 +94,7 @@ export function CalendarView({ events }: { events: LifeEvent[] }) {
         <div className="mb-6 flex items-center justify-between">
           <button
             onClick={() => setCurrentMonth((prev) => addMonths(prev, -1))}
-            className="rounded-xl glass p-3 text-slate-400 transition-all hover:text-white hover:bg-white/5 active:scale-95"
+            className="rounded-xl glass p-3 text-slate-500 dark:text-slate-400 transition-all hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 active:scale-95"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>

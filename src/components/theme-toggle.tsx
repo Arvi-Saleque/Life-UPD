@@ -13,9 +13,9 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <div className="flex items-center rounded-xl bg-slate-100 dark:bg-white/5 p-1">
-        <div className="h-7 w-7" />
-        <div className="h-7 w-7" />
-        <div className="h-7 w-7" />
+        <div className="h-8 w-8 sm:h-7 sm:w-7" />
+        <div className="h-8 w-8 sm:h-7 sm:w-7" />
+        <div className="h-8 w-8 sm:h-7 sm:w-7" />
       </div>
     );
   }
@@ -32,7 +32,7 @@ export function ThemeToggle() {
         <button
           key={value}
           onClick={() => setTheme(value)}
-          className={`relative flex h-7 w-7 items-center justify-center rounded-lg transition-all duration-200 ${
+          className={`relative flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-lg transition-all duration-200 ${
             theme === value
               ? "bg-white dark:bg-white/15 text-blue-600 dark:text-blue-400 shadow-sm"
               : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"

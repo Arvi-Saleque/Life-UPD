@@ -23,9 +23,9 @@ export function Footer() {
 
         <p className="text-center text-xs text-slate-400 dark:text-slate-500 italic max-w-xs">{msg}</p>
 
-        <div className="flex items-center gap-4 text-xs text-slate-400 dark:text-slate-600">
+        <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-xs text-slate-400 dark:text-slate-600">
           <span>Weeks 11–14</span>
-          <span>&bull;</span>
+          <span className="hidden sm:inline">&bull;</span>
           <span>March 28 – April 24, 2026</span>
         </div>
 

@@ -112,7 +112,7 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
 
       <div className="relative mx-auto max-w-5xl px-6">
         {/* Stats grid */}
-        <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -157,7 +157,7 @@ export function QuickStats({ events }: { events: LifeEvent[] }) {
                   <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
                     {next.title}
                   </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-2">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5">
                     <span className={`${nextCourse.text} font-medium`}>{nextCourse.shortName}</span>
                     <span className="text-slate-300 dark:text-slate-600">&bull;</span>
                     <span>{next.date ? format(parseISO(next.date), "MMM d") : "TBD"}</span>

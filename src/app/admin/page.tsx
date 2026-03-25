@@ -189,7 +189,7 @@ export default function AdminPage() {
   return (
     <div className="mx-auto max-w-4xl px-6 py-10">
       {/* Header */}
-      <div className="mb-10 flex items-center justify-between">
+      <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Admin Dashboard</h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -457,10 +457,10 @@ export default function AdminPage() {
                 return (
                   <div
                     key={event.id}
-                    className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-3 transition hover:border-slate-300 dark:hover:border-slate-700"
+                    className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-3 transition hover:border-slate-300 dark:hover:border-slate-700"
                   >
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                         <span
                           className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-semibold ${course.badge}`}
                         >
@@ -488,7 +488,7 @@ export default function AdminPage() {
                         {event.room ? ` • ${event.room}` : ""}
                       </p>
                     </div>
-                    <div className="flex shrink-0 gap-1">
+                    <div className="flex shrink-0 gap-1 self-end sm:self-center">
                       <Button
                         size="sm"
                         variant="ghost"
